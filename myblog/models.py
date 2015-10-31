@@ -6,3 +6,4 @@ class Articles(models.Model):
 	tsp = models.CharField(max_length=10)
 	desc = models.CharField(max_length=255)
 	content = models.TextField()
+	scanTimes = models.IntegerField()

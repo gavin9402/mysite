@@ -2,6 +2,7 @@
 <head>
 	<title>{% block title %}Gavin's New World!{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/basic.css" />
+	<script src="/static/js/jquery-2.1.4.min.js"></script>
 </head>
 
 <body>
@@ -23,6 +24,9 @@
 				<div class="section">
 					<div class="tag">
 						{{ item.tag }}
+					</div>
+					<div class="scan-time">
+						阅读:({{ item.scanTimes }})
 					</div>
 					<div class="title">
 						{{ item.title }}
@@ -61,14 +65,84 @@
 	</div>
 	<div class="slide">
 		<div class="board">
+			<div class="column">
+				<img src="/static/img/home-icon.png" />
+				Home
+			</div>
+			<div class="column">
+				<img src="/static/img/tags-icon.png" />
+				Tags
+			</div>
+			<div class="column">
+				<label style="font-size: 20px; font-weight: 900; margin-left: 12px; margin-right: 12px;">
+					<b>B</b>
+				</label>
+				Blog
+			</div>
+			<div class="column">
+				<label style="font-size: 20px; font-weight: 900; margin-left: 12px; margin-right: 12px;">
+					<b>A</b>
+				</label>
+				About Me
+			</div>
+			<div class="column">
+				<label style="font-size: 20px; font-weight: 900; margin-left: 10px; margin-right: 8px;">
+					<b>@</b>
+				</label>
+				Contact Me
+			</div>
 		</div>
 		<div class="play">
+			<div style="height: 20px; width: 20px; margin: 15px;">
+				<div style="height: 4px; width: 20px; background-color: #737272; margin-bottom: 2px;">
+				</div>
+				<div style="height: 4px; width: 20px; background-color: #737272; margin-bottom: 2px;">
+				</div>
+				<div style="height: 4px; width: 20px; background-color: #737272">
+				</div>
+		</div>
 		</div>
 		<div class="logo">
+			Gavin
 		</div>
 	</div>
 	<div class="cover" hidden>
 	</div>
 </body>
+<script>
+"use strict"
+var slideShow = false;
+$(function(){
+		$(".play").on("click", slidePlay);
+		$(".cover").on("click", hideSlide)
+		});
 
+function slidePlay() {
+	if (slideShow === false) {
+		showSlide();
+	} else {
+		hideSlide();
+	}
+}
+
+function showSlide() {
+	var slide = $(".slide");
+	var cover = $(".cover");
+	slide.animate({
+		left: "0px",
+	}, 500);
+	cover.removeAttr("hidden");
+	slideShow = true;
+}
+
+function hideSlide() {
+	var slide = $(".slide");
+	var cover = $(".cover")
+	slide.animate({
+		left: "-200px",
+	}, 500);
+	cover.attr("hidden", "");
+	slideShow = false;
+}
+</script>
 </html>

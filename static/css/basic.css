@@ -63,9 +63,20 @@
 }
 
 .section .tag {
+	display: inline-block;
 	font-size: 20px;
 	color: #D8D7D7;
 	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
+}
+
+.section .scan-time {
+	position: relative;
+	float: right;
+	margin-right: 30px;
+	margin-top: 8px;
+	display: inline-block;
+	font-size: 10px;
+	color: #9A9A9A;
 }
 
 .section .title {
@@ -124,6 +135,7 @@
 	top: 0;
 	background-color: white;
 	z-index: 100;
+	left: -200px;
 }
 
 .slide .board {
@@ -133,26 +145,48 @@
 	border-right: solid 1px #D8D2D2;
 }
 
+.board .column {
+	border-top: solid 1px #D8D2D2;
+	height: 50px;
+	width: 200px;
+	line-height: 50px;
+	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
+	font-weight: 700;
+}
+
+.board .column img {
+	height: 20px;
+	width: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .slide .play {
 	display: inline-block;
 	position: absolute;
 	top: 0;
 	right: 0;
 	left: 200px;
-	width: 80px;
+	width: 50px;
 	height: 50px;
 	background-color: white;
 	border: solid 1px #D8D2D2;
 }
 
 .slide .logo {
+	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
 	display: inline-block;
 	position: absolute;
 	top: 0;
 	right: 0;
-	left: 280px;
+	left: 250px;
 	width: 100px;
 	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-size: 25px;
+	font-weight: 700;
+	color: #737272;
 	background-color: white;
 	border: solid 1px #D8D2D2;
 }

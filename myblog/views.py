@@ -20,7 +20,8 @@ def index(request):
 				"title": item.title,
 				"tag": item.tag,
 				"tsp": tsp,
-				"desc": item.desc
+				"desc": item.desc,
+				"scanTimes": item.scanTimes,
 				})
 	c = Context({
 			"title": "其实我只是个会计",
