@@ -1,0 +1,74 @@
+<html>
+<head>
+	<title>{% block title %}Gavin's New World!{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/basic.css" />
+</head>
+
+<body>
+	<div class="left-box">
+	</div>
+	<div class="paper">
+		<div class="content">
+			<div id="title">
+				{{ title }}
+			</div>
+			<div id="title2">
+				{{ title2 }}
+			</div>
+
+			{% for item in articles %}
+				<div class="warp">
+				<div class="left-box">
+				</div>
+				<div class="section">
+					<div class="tag">
+						{{ item.tag }}
+					</div>
+					<div class="title">
+						{{ item.title }}
+					</div>
+					<div class="tsp">
+						<label class="post-meta">Post on: </label>
+						{{ item.tsp }}
+					</div>
+					<div class="desc">
+						{{ item.desc }}
+					</div>
+					<div class="separator">
+						<div class="separator-side">
+						</div>
+						<div class="separator-center">
+							<div class="separator-circle">
+							</div>
+						</div>
+						<div class="separator-side">
+						</div>
+					</div>
+				</div>
+				</div>
+			{% endfor %}
+
+		</div>
+		<div id="page">
+			<p>Page {{ page }} of {{ pageTotal }} </p>
+		</div>
+	</div>
+	<div class="right-box">
+	</div>
+	<div class="footer">
+		<p style="margin-top: 30px;">{% block owner %}⊙ Gavin 2015{% endblock %}</p>
+		<p style="margin-top: 5px;">Published with Django</p>
+	</div>
+	<div class="slide">
+		<div class="board">
+		</div>
+		<div class="play">
+		</div>
+		<div class="logo">
+		</div>
+	</div>
+	<div class="cover" hidden>
+	</div>
+</body>
+
+</html>

@@ -25,7 +25,7 @@ SECRET_KEY = 'q%&cnhs$zejj#)#04h=0*g!ypw!)x=lmrmr)q^_&3#6t(lwk!-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["114.215.132.127"]
 
 
 # Application definition
@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		"ENGINE": "django.db.backends.mysql",
+		"NAME": "blog",
+		"USER": "root",
+		"PASSWORD": "946882",
+		"HOST": "114.215.132.127",
+		"PORT": "3306",
     }
 }
 
