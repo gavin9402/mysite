@@ -1,5 +1,5 @@
 {% extends "basic.html" %}
-{% block content %}
+{% block detial %}
 <style>
 img {
 	width: 200px;
@@ -8,16 +8,36 @@ img {
 
 .img-warp {
 	width: 100%;
-	text-align: center;
 	margin-top: 20px;
 }
 
+.contact-desc {
+	margin-top: 20px;
+	background-color: #312E4A;
+	color: white;
+	border-radius: 4px;
+	padding: 5px;
+	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
+	font-size: 0.8em;
+	width: 200px;
+}
 </style>
 
-	<div class="img-warp">
+	<div class="img-warp" style="margin-top: 40px;">
 		<img src="/static/img/qq.jpg">
 	</div>
+	<div class="contact-desc">
+		QQ扫一扫上方二维码
+	</div>
+
 	<div class="img-warp">
 		<img src="/static/img/wx.png">
 	</div>
+	<div class="contact-desc">
+		微信扫一扫上方二维码
+	</div>
+	<div class="contact-desc">
+		Email: zhoutao9402@gmail.com
+	</div>
+
 {% endblock %}

@@ -19,6 +19,7 @@
 			<div id="title2">
 				{{ title2 }}
 			</div>
+			{% block detial %}
 			{% for item in articles %}
 				<div class="warp">
 				<div class="section">
@@ -58,7 +59,7 @@
 				</div>
 				</div>
 			{% endfor %}
-
+			{% endblock %}
 		</div>
 		<div id="page">
 			<p>Page {{ page }} of {{ pageTotal }} </p>

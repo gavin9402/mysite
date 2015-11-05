@@ -41,4 +41,7 @@ def article(request, articleId):
 
 def contact(request):
 	t = get_template("contact.html")
-	return HttpResponse(t.render())
+	return HttpResponse(t.render(Context({
+					"title": "其实我只是个会计",
+					"title2": "我们不生产代码，我们只是代码的搬运工",
+					})))
