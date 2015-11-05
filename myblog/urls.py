@@ -4,5 +4,7 @@ import settings
 
 urlpatterns = [
 	url(r"^$", index),
-	url(r"^index/$", index)
+	url(r"^index/$", index),
+	url(r"^article/(\d+)/$", article),
+	url(r"^contact/$", contact),
 ]

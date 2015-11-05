@@ -1,0 +1,23 @@
+{% extends "basic.html" %}
+{% block content %}
+<style>
+img {
+	width: 200px;
+	height: 200px;
+}
+
+.img-warp {
+	width: 100%;
+	text-align: center;
+	margin-top: 20px;
+}
+
+</style>
+
+	<div class="img-warp">
+		<img src="/static/img/qq.jpg">
+	</div>
+	<div class="img-warp">
+		<img src="/static/img/wx.png">
+	</div>
+{% endblock %}

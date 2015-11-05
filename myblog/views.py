@@ -22,6 +22,7 @@ def index(request):
 				"tsp": tsp,
 				"desc": item.desc,
 				"scanTimes": item.scanTimes,
+				"articleId": item.id,
 				})
 	c = Context({
 			"title": "其实我只是个会计",
@@ -31,3 +32,13 @@ def index(request):
 			"pageTotal": 1,
 			})
 	return HttpResponse(t.render(c))
+
+def article(request, articleId):
+	t = get_template("article.html")
+	return HttpResponse(t.render(Context({
+					"articleId": articleId,
+					})))
+
+def contact(request):
+	t = get_template("contact.html")
+	return HttpResponse(t.render())

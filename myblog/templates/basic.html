@@ -3,12 +3,15 @@
 	<title>{% block title %}Gavin's New World!{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/basic.css" />
 	<script src="/static/js/jquery-2.1.4.min.js"></script>
+	<script src="/static/js/basic.js" type="text/javascript"></script>
 </head>
 
 <body>
+<div id="content">
 	<div class="left-box">
 	</div>
 	<div class="paper">
+		{% block content %}
 		<div class="content">
 			<div id="title">
 				{{ title }}
@@ -16,11 +19,8 @@
 			<div id="title2">
 				{{ title2 }}
 			</div>
-
 			{% for item in articles %}
 				<div class="warp">
-				<div class="left-box">
-				</div>
 				<div class="section">
 					<div class="tag">
 						{{ item.tag }}
@@ -28,15 +28,22 @@
 					<div class="scan-time">
 						阅读:({{ item.scanTimes }})
 					</div>
-					<div class="title">
-						{{ item.title }}
-					</div>
+						<div class="title">
+					<a href="/article/{{ item.articleId}}">
+							{{ item.title }}
+					</a>
+						</div>
 					<div class="tsp">
 						<label class="post-meta">Post on: </label>
 						{{ item.tsp }}
 					</div>
 					<div class="desc">
 						{{ item.desc }}
+						<div class="read-more">
+							<a style="color: white" href="/article/{{ item.articleId}}">
+								Read More >>
+							</a>
+						</div>
 					</div>
 					<div class="separator">
 						<div class="separator-side">
@@ -56,6 +63,7 @@
 		<div id="page">
 			<p>Page {{ page }} of {{ pageTotal }} </p>
 		</div>
+		{% endblock %}
 	</div>
 	<div class="right-box">
 	</div>
@@ -63,48 +71,51 @@
 		<p style="margin-top: 30px;">{% block owner %}⊙ Gavin 2015{% endblock %}</p>
 		<p style="margin-top: 5px;">Published with Django</p>
 	</div>
+</div>
 	<div class="slide">
 		<div class="board">
-			<div class="column">
+			<a href="/">
+			<div class="home-column column">
 				<img src="/static/img/home-icon.png" />
 				Home
 			</div>
-			<div class="column">
+			</a>
+			<div class="tags-column column">
 				<img src="/static/img/tags-icon.png" />
 				Tags
 			</div>
-			<div class="column">
+			<a href="/blog/">
+			<div class="blog-column column">
 				<label style="font-size: 20px; font-weight: 900; margin-left: 12px; margin-right: 12px;">
 					<b>B</b>
 				</label>
 				Blog
 			</div>
-			<div class="column">
-				<label style="font-size: 20px; font-weight: 900; margin-left: 12px; margin-right: 12px;">
-					<b>A</b>
-				</label>
-				About Me
-			</div>
-			<div class="column">
+			</a>
+			<a href="/contact/">
+			<div class="contact-column column">
 				<label style="font-size: 20px; font-weight: 900; margin-left: 10px; margin-right: 8px;">
 					<b>@</b>
 				</label>
 				Contact Me
 			</div>
+			</a>
 		</div>
 		<div class="play">
 			<div style="height: 20px; width: 20px; margin: 15px;">
-				<div style="height: 4px; width: 20px; background-color: #737272; margin-bottom: 2px;">
+				<div style="height: 4px; width: 20px; background-color: white; margin-bottom: 2px;">
 				</div>
-				<div style="height: 4px; width: 20px; background-color: #737272; margin-bottom: 2px;">
+				<div style="height: 4px; width: 20px; background-color: white; margin-bottom: 2px;">
 				</div>
-				<div style="height: 4px; width: 20px; background-color: #737272">
+				<div style="height: 4px; width: 20px; background-color: white">
 				</div>
+			</div>
 		</div>
-		</div>
+		<a href="/">
 		<div class="logo">
 			Gavin
 		</div>
+		</a>
 	</div>
 	<div class="cover" hidden>
 	</div>
@@ -112,10 +123,81 @@
 <script>
 "use strict"
 var slideShow = false;
+var tagsShow = false;
+
 $(function(){
-		$(".play").on("click", slidePlay);
-		$(".cover").on("click", hideSlide)
+		onAction();
 		});
+
+function onAction() {
+	$(".play").on("click", slidePlay);
+	$(".cover").on("click", hideSlide);
+	$(".tags-column").on("click", tagsPlay)
+	if (platForm === "pc") {
+		onMouseFocusAction();
+	} else {
+	/*
+	 * todo 手机端的自适应
+		$(".left-box").css({
+				"display": "none",
+				});
+		$(".right-box").css({
+				"display": "none",
+				})
+		$(".paper").css({
+				"width": "100%",
+				"margin-top": "100px",
+				});
+		$(".section").css({
+				"width": "100%",
+				})
+	*/
+	}
+}
+
+function tagsPlay() {
+}
+
+function onMouseFocusAction() {
+	var mouseOnList = {
+		"logo": "logo",
+		"play": "play",
+		"home-column": "home",
+		"tags-column": "tags",
+		"blog-column": "blog",
+		"about-column": "about",
+		"contact-column": "contact",
+	};
+	for (var item in mouseOnList) {
+		var href = mouseOnList[item];
+		$("." + item).on("mouseenter", {"msg":{
+				"item": item,
+				"href": href,
+				}}, mouseEnter);
+		$("." + item).on("mouseleave", {"msg":{
+				"item": item,
+				"href": href,
+				}}, mouseLeave);
+	}
+}
+
+function mouseEnter(event) {
+	var element = $(this);
+	var href = event.data.msg.href;
+	var item = event.data.msg.item;
+	//var element = $("."+ event.data.msg);
+	element.css({
+			"background-color": "#734444",
+			});
+}
+
+function mouseLeave(event) {
+	var element = $(this);
+	var href = event.data.msg.href;
+	var item = event.data.msg.item;
+	//var element = $("." + event.data.msg);
+	element.removeAttr("style");
+}
 
 function slidePlay() {
 	if (slideShow === false) {
@@ -128,19 +210,29 @@ function slidePlay() {
 function showSlide() {
 	var slide = $(".slide");
 	var cover = $(".cover");
+	var content = $("#content");
 	slide.animate({
 		left: "0px",
-	}, 500);
+	}, 500, function() {
+	});
+	content.animate({
+		left: "200px",
+	}, 500, function(){
+	});
 	cover.removeAttr("hidden");
 	slideShow = true;
 }
 
 function hideSlide() {
 	var slide = $(".slide");
-	var cover = $(".cover")
+	var cover = $(".cover");
+	var content = $("#content");
 	slide.animate({
 		left: "-200px",
 	}, 500);
+	content.animate({
+		left: "0",
+	}, 500)
 	cover.attr("hidden", "");
 	slideShow = false;
 }
