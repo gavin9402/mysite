@@ -1,9 +1,37 @@
 {% extends "basic.html" %}
-
+{% load mark %}
 {% block title %}
 	{{ articleTitle }}
 {% endblock %}
 
 {% block content %}
-{{ articleId }}
+<style>
+	label {
+		font-size: 0.8em;
+		color: #9A9A9A;
+	}
+	table {
+		width: 100%;
+		table-layout:fixed;
+	}
+</style>
+	<div id="title">
+		{{ articleTitle }}
+	</div>
+	<div style="margin-top: 20px; width: 100%;">
+		<table>
+		<tr>
+			<td>
+				<label>阅读:({{ scanTime }})</label>
+			</td>
+			<td>
+				<label>更新时间:{{ tsp }}</label>
+			</td>
+			<td>
+				<label>作者:{{ author }}</label>
+			</td>
+		</tr>
+		</table>
+	</div>
+{{ content | my_markdown | safe }}
 {% endblock %}

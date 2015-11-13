@@ -3,8 +3,32 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import Template, Context
-from myblog.models import Articles
+from myblog.models import Articles, User, Admin
+from myblog.logic.tools import *
+from myblog.logic import user
+import os, sys
+import json
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # Create your views here.
+
+def login(request):
+	t = get_template("login.html")
+	return HttpResponse(t.render())
+
+def loginSubmit(request):
+	data = request.POST
+	mobile = data["mobile"]
+	password = md5(data["password"])
+	loginType = data["type"]
+	if loginType == "admin":
+		return user.adminLogin(data)
+	elif loginType == "user":
+		return user.userLogin(data)
+
+def admin(request):
+	return ""
 
 def index(request):
 	mon = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -31,12 +55,17 @@ def index(request):
 			"page": 1,
 			"pageTotal": 1,
 			})
-	return HttpResponse(t.render(c))
+	html = t.render(c)
+	response = HttpResponse(html)
+	return response
 
 def article(request, articleId):
 	t = get_template("article.html")
+	fName = "markdown.blog"
 	return HttpResponse(t.render(Context({
 					"articleId": articleId,
+					"articleTitle": "Django Markdown",
+					"content": getArticleContent(fName),
 					})))
 
 def contact(request):

@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/css/login.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/basic.css">
+		<script src="/static/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+		<script src="/static/js/basic.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="left-box">
+		</div>
+		<div class="paper">
+		<form>
+			<input type="text" name="mobile" placeholder="手机号">
+			<input type="password" name="password" placeholder="密码">
+				<div class="submit-btn" onclick="submit()">
+					登录
+				</div>
+		</form>
+		</div>
+		<div class="right-box">
+		</div>
+	</body>
+
+	<script>
+		$(function(){
+				})
+
+		function submit() {
+			var mobile = $("[name=mobile]").val();
+			var password = $("[name=password]").val();
+			mobile = checkMobile(mobile);
+			if (mobile == false) {
+				alert("请输入正确的手机号");
+				return;
+			}
+			if (checkPassword(password) == false) {
+				alert("密码由6到15位数字字母组成,以字母开头");
+				return;
+			}
+			$.ajax({
+				url: "/loginSubmit/",
+				data: {
+					"mobile": mobile,
+					"password": password,
+					"type": "admin",
+				},
+				dataType: "text json",
+				type: "POST",
+				success: function(data) {
+					if (data.CODE == "ok") {
+					} else if (data.CODE == "error") {
+						alert(data.errMsg);
+					}
+				},
+
+				error: function(XMLHttpRequest,
+						   		textStatus,
+						   		errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				},
+			});
+		}
+	</script>
+</html>

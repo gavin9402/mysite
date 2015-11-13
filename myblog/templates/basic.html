@@ -19,46 +19,7 @@
 			<div id="title2">
 				{{ title2 }}
 			</div>
-			{% block detial %}
-			{% for item in articles %}
-				<div class="warp">
-				<div class="section">
-					<div class="tag">
-						{{ item.tag }}
-					</div>
-					<div class="scan-time">
-						阅读:({{ item.scanTimes }})
-					</div>
-						<div class="title">
-					<a href="/article/{{ item.articleId}}">
-							{{ item.title }}
-					</a>
-						</div>
-					<div class="tsp">
-						<label class="post-meta">Post on: </label>
-						{{ item.tsp }}
-					</div>
-					<div class="desc">
-						{{ item.desc }}
-						<div class="read-more">
-							<a style="color: white" href="/article/{{ item.articleId}}">
-								Read More >>
-							</a>
-						</div>
-					</div>
-					<div class="separator">
-						<div class="separator-side">
-						</div>
-						<div class="separator-center">
-							<div class="separator-circle">
-							</div>
-						</div>
-						<div class="separator-side">
-						</div>
-					</div>
-				</div>
-				</div>
-			{% endfor %}
+			{% block detail %}
 			{% endblock %}
 		</div>
 		<div id="page">

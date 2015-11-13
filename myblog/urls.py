@@ -7,4 +7,7 @@ urlpatterns = [
 	url(r"^index/$", index),
 	url(r"^article/(\d+)/$", article),
 	url(r"^contact/$", contact),
+	url(r"^admin/$", admin),
+	url(r"^login/$", login),
+	url(r"^loginSubmit/$", loginSubmit),
 ]
