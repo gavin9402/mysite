@@ -1,46 +1,133 @@
 {% extends "basic.html" %}
-
+{% load mark %}
 {% block title %}Blog{% endblock %}
 
 {% block detail %}
-			{% for item in articles %}
-				<div class="warp">
-				<div class="section">
-					<div class="tag">
-						{{ item.tag }}
-					</div>
-					<div class="scan-time">
-						阅读:({{ item.scanTimes }})
-					</div>
-						<div class="title">
-					<a href="/article/{{ item.articleId}}">
-							{{ item.title }}
-					</a>
-						</div>
-					<div class="tsp">
-						<label class="post-meta">Post on: </label>
-						{{ item.tsp }}
-					</div>
-					<div class="desc">
-						{{ item.desc }}
-						<div class="read-more">
-							<a style="color: white" href="/article/{{ item.articleId}}">
-								Read More >>
-							</a>
-						</div>
-					</div>
-					<div class="separator">
-						<div class="separator-side">
-						</div>
-						<div class="separator-center">
-							<div class="separator-circle">
-							</div>
-						</div>
-						<div class="separator-side">
-						</div>
-					</div>
-				</div>
-				</div>
-			{% endfor %}
+<style>
+	#nextPage {
+		float: right;
+		display: inline-block;
+		color: grey;
+		margin-top: 50px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		text-align: center;
+		cursor: pointer;
+		width: 35%;
+		font-family: FZShuTi;
+	}
+</style>
+
+		<div id="detail">
+		</div>
+		<div id="page">
+			<p>Page 
+			<label id="page_this"></label> 
+			of 
+			<label id="page_num"></label>
+			</p>
+		</div>
+
+		<div>
+		<div id="nextPage" onclick="nextPage()">
+			还有更多
+		</div>
+		</div>
+
+<script>
+
+	var page = 1;
+	$(function() {
+		getArticlePage();
+	});
+
+	function nextPage() {
+		page += 1;
+		getArticlePage();
+	}
+
+	function getArticlePage() {
+		$.ajax({
+			url: "/getArticlePage/",
+			type: "POST",
+			dataType: "text json",
+			data: {
+				"page": page,
+			},
+			success: function(data) {
+				setPageData(data);
+			},
+			error: function(XMLHttpRequest,
+					   		textStatus,
+					   		errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			},
+		});
+	}
+
+	function getSectionHtml(article) {
+		var html = '\
+				<div class="warp">\
+				<div class="section">\
+					<div class="tag">\
+						item.tag\
+					</div>\
+					<div class="scan-time">\
+						阅读:(item.scanTimes)\
+					</div>\
+						<div class="title">\
+					<a href="/article/item.articleId">\
+							item.title\
+					</a>\
+						</div>\
+					<div class="tsp">\
+						<label class="post-meta">Post on: item.tsp</label>\
+					</div>\
+					<div class="desc">\
+						item.desc\
+						<div class="read-more">\
+							<a style="color: #9C98B9;" href="/article/item.articleId">\
+								Read More >>\
+							</a>\
+						</div>\
+					</div>\
+					<div class="separator">\
+						<div class="separator-side">\
+						</div>\
+						<div class="separator-center">\
+							<div class="separator-circle">\
+							</div>\
+						</div>\
+						<div class="separator-side">\
+						</div>\
+					</div>\
+				</div>\
+				</div>\
+			';
+		html = html.replace(new RegExp(/(item.tag)/g), article["tag"]);
+		html = html.replace(new RegExp(/(item.scanTimes)/g), article["scanTimes"]);
+		html = html.replace(new RegExp(/(item.title)/g), article["title"]);
+		html = html.replace(new RegExp(/(item.tsp)/g), article["tsp"]);
+		html = html.replace(new RegExp(/(item.desc)/g), article.desc);
+		html = html.replace(new RegExp(/(item.articleId)/g), article["articleId"]);
+		return html;
+	}
+
+	function setPageData(data) {
+		$("#page_this").html(page);
+		$("#page_num").html(data.pageNum);
+		if (data.pageNum == page) {
+			$("#nextPage").css("display", "none");
+		}
+		for (var i in data.articles) {
+			var div = $("<div>");
+			div.html(getSectionHtml(data.articles[i]));
+			$("#detail").append(div);
+		}
+	}
+
+</script>
 
 {% endblock %}

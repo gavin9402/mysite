@@ -2,6 +2,7 @@
 from myblog.logic.tools import *
 from myblog.models import Admin, User
 from django.http import HttpResponse
+from myblog.conf import conf
 import json
 
 def adminLogin(data):
@@ -24,7 +25,13 @@ def adminLogin(data):
 			"CODE":		"error",
 			"errMsg":	"用户不存在",
 		}
-	return HttpResponse(json.dumps(response))
+	httpResponse = HttpResponse(json.dumps(response))
+	if (response["CODE"] == "ok"):
+		cookie = md5(mobile)
+		httpResponse.set_cookie("cookie", cookie, conf("COOKIE_AGE"))
+		admin.cookie = cookie
+		admin.save()
+	return httpResponse
 
 def userLogin(data):
 	mobile = data["mobile"]
@@ -46,4 +53,27 @@ def userLogin(data):
 			"CODE":		"error",
 			"errMsg":	"用户不存在",
 		}
-	return HttpResponse(json.dumps(response))
+	httpResponse = HttpResponse(json.dumps(response))
+	if (response["CODE"] == "ok"):
+		cookie = md5(mobile)
+		httpResponse.set_cookie("cookie", cookie, conf("COOKIE_AGE"))
+		admin.cookie = cookie
+		admin.save()
+	return httpResponse
+
+def isLogin(request):
+	if "cookie" not in request.COOKIES:
+		return False
+	return True
+
+def userInfo(request):
+	if isLogin(request) == False:
+		return None
+	cookie = request.COOKIES["cookie"]
+	return User.objects.get(cookie=cookie)
+
+def adminInfo(request):
+	if isLogin(request) == False:
+		return None
+	cookie = request.COOKIES["cookie"]
+	return Admin.objects.get(cookie=cookie)

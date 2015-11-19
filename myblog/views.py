@@ -3,19 +3,33 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import Template, Context
+from django.core.paginator import Paginator
 from myblog.models import Articles, User, Admin
 from myblog.logic.tools import *
 from myblog.logic import user
-import os, sys
+import os, sys, time
 import json
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # Create your views here.
 
+mon = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 def login(request):
 	t = get_template("login.html")
 	return HttpResponse(t.render())
+
+def addArticle(request):
+	data = request.POST
+	article = Articles(
+		title = data["title"],
+		author = data["author"],
+		content = data["content"],
+		tsp = time.strftime("%Y:%m:%d:%M:%S"),
+		scanTimes = 0,
+	)
+	article.save()
+	return HttpResponse(json.dumps({'CODE': 'ok'}));
 
 def loginSubmit(request):
 	data = request.POST
@@ -30,30 +44,49 @@ def loginSubmit(request):
 def admin(request):
 	return ""
 
-def index(request):
-	mon = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
-	t = get_template("index.html")
-	itemList = Articles.objects.all()
-	articles = []
-	for item in itemList:
-		year = item.tsp[0: 4]
-		month = item.tsp[4: 6]
-		day = item.tsp[6:]
+def add(request):
+	loged = user.isLogin(request)
+	if loged:
+		t = get_template("add.html")
+	else:
+	 	t = get_template("login.html")
+	c = Context({
+				"loged": loged,
+			})
+	return HttpResponse(t.render(c))
+
+def getArticlePage(request):
+	page = request.POST["page"]
+	articles = Articles.objects.all()
+	p = Paginator(articles, 5)
+	articles = p.page(page).object_list
+	data = {
+		"pageNum": p.num_pages,
+		"articles": [],
+	}
+
+	t = get_template("markdown.html")
+	global mon
+	for item in articles:
+		year, month, day, minu, sec = item.tsp.split(":")
 		tsp = mon[int(month) - 1] + " " + day + "/" + year
-		articles.append({
+		data["articles"].append({
 				"title": item.title,
 				"tag": item.tag,
 				"tsp": tsp,
-				"desc": item.desc,
+				"desc": t.render({"data": item.content[0:100]+"\n\n..."}),
 				"scanTimes": item.scanTimes,
 				"articleId": item.id,
 				})
+	return HttpResponse(json.dumps(data))
+
+def index(request):
+	ip = getIP(request)
+	t = get_template("index.html")
 	c = Context({
 			"title": "其实我只是个会计",
 			"title2": "我们不生产代码, 我们只是代码的搬运工",
-			"articles": articles,
-			"page": 1,
-			"pageTotal": 1,
+			"ip": ip,
 			})
 	html = t.render(c)
 	response = HttpResponse(html)
@@ -61,11 +94,21 @@ def index(request):
 
 def article(request, articleId):
 	t = get_template("article.html")
-	fName = "markdown.blog"
+	article = Articles.objects.get(id=articleId)
+	article.scanTimes += 1
+	article.save()
+	global mon
+	year, month, day, minu, sec = article.tsp.split(":")
+	tsp = mon[int(month) - 1] + " " + day + "/" + year
 	return HttpResponse(t.render(Context({
-					"articleId": articleId,
-					"articleTitle": "Django Markdown",
-					"content": getArticleContent(fName),
+					"articleId": article.id,
+					"articleTitle": article.title,
+					"content": article.content,
+					"author": article.author,
+					"scanTimes": article.scanTimes,
+					"tsp": tsp,
+					"desc": article.desc,
+					"tag": article.tag,
 					})))
 
 def contact(request):

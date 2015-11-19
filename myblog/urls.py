@@ -10,4 +10,7 @@ urlpatterns = [
 	url(r"^admin/$", admin),
 	url(r"^login/$", login),
 	url(r"^loginSubmit/$", loginSubmit),
+	url(r"^add/$", add),
+	url(r"^addArticle/$", addArticle),
+	url(r"^getArticlePage/$", getArticlePage),
 ]

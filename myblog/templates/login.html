@@ -23,7 +23,16 @@
 
 	<script>
 		$(function(){
+				showBody();
 				})
+
+		function showBody() {
+			$("body").animate(
+				{opacity: 1}, 
+				600, 
+				function() {
+			});
+		}
 
 		function submit() {
 			var mobile = $("[name=mobile]").val();
@@ -48,6 +57,7 @@
 				type: "POST",
 				success: function(data) {
 					if (data.CODE == "ok") {
+						location.href="/add/"
 					} else if (data.CODE == "error") {
 						alert(data.errMsg);
 					}

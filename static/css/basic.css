@@ -1,6 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	word-break:break-all;
 }
 
 a {
@@ -8,22 +9,27 @@ a {
 	color: black;
 }
 
+body {
+	font-family: 'Open Sans','Helvetica Neue','Helvetica',Arial,'Hiragino Sans GB', 'Microsoft YaHei','SimSun','Droid Sans Fallback',sans-serif;
+	opacity: 0;
+}
+
 .left-box {
 	display: inline-block;
-	width: 30%;
+	width: 25%;
 	height: 10px;
 }
 
 .right-box {
 	display: inline-block;
-	width: 25%;
+	width: 20%;
 	height: 100px;
 }
 
 .paper {
 	padding-top: 20px;
 	display: inline-block;
-	width: 40%;
+	width: 50%;
 	margin-top: 10px;
 	margin-bottom: 50px;
 	vertical-align: top;
@@ -66,7 +72,7 @@ a {
 .section {
 	padding-left: 10px;
 	width: 100%;
-	margin-top: 150px;
+	margin-top: 100px;
 	display: inline-block;
 	vertical-align: top;
 }
@@ -101,25 +107,22 @@ a {
 }
 
 .section .tsp {
-	margin-top: 5px;
+	margin-top: 15px;
 	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
 }
 
 .section .desc {
 	width: 90%;
-	padding: 5px;
-	margin-top: 25px;
+	margin-top: 45px;
 	font-family: "Open Sans","Helvetica Neue",'Helvetica',Arial, "Microsoft YaHei","STKaiti","Droid Sans Fallback",SimSun,serif;
 	border-radius: 5px;
-	background-color: #312E4A;
-	color:	#ADAAAB;
 	font-size: 18px;
 }
 
 .desc .read-more {
 	margin-top: 20px;
 	font-size: 12px;
-	color: white;
+	color: #74ECE2;
 	width: auto;
 }
 
@@ -252,6 +255,7 @@ a {
 
 #title2 {
 	margin-top: 10px;
+	margin-bottom: 50px;
 	margin-left: 40px;
 	font-size: 15px;
 	font-weight: 500;
@@ -267,4 +271,14 @@ a {
 
 #content {
 	position: relative;
+}
+
+#top {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 1000px;
+	height: 5000px;
+	background-color: white;
+	z-index: 200;
 }

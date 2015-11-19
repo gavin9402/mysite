@@ -22,9 +22,6 @@
 			{% block detail %}
 			{% endblock %}
 		</div>
-		<div id="page">
-			<p>Page {{ page }} of {{ pageTotal }} </p>
-		</div>
 		{% endblock %}
 	</div>
 	<div class="right-box">
@@ -89,7 +86,16 @@ var tagsShow = false;
 
 $(function(){
 		onAction();
+		showBody();
 		});
+
+function showBody() {
+	$("body").animate(
+			{opacity: 1}, 
+			600, 
+			function() {
+			});
+}
 
 function onAction() {
 	$(".play").on("click", slidePlay);

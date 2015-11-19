@@ -14,24 +14,35 @@
 		width: 100%;
 		table-layout:fixed;
 	}
+	.info {
+		margin-top: 30px;
+		width: 100%;
+		border-bottom: solid 1px #9A9A9A;
+		padding-bottom: 5px;
+	}
+	.content-warp {
+		margin-top: 100px;
+	}
 </style>
 	<div id="title">
 		{{ articleTitle }}
 	</div>
-	<div style="margin-top: 20px; width: 100%;">
+	<div class="info">
 		<table>
 		<tr>
 			<td>
-				<label>阅读:({{ scanTime }})</label>
+				<label>阅读:({{ scanTimes }})</label>
 			</td>
 			<td>
-				<label>更新时间:{{ tsp }}</label>
+				<label>Post: {{ tsp }}</label>
 			</td>
 			<td>
-				<label>作者:{{ author }}</label>
+				<label>作者: {{ author }}</label>
 			</td>
 		</tr>
 		</table>
 	</div>
-{{ content | my_markdown | safe }}
+	<div class="content-warp">
+		{{ content | my_markdown | safe }}
+	</div>
 {% endblock %}
