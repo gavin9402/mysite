@@ -3,6 +3,9 @@ import os, sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+mon = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+monDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
 def getArticleContent(fName):
 	rootPath = sys.path[0]
 	fp = open(rootPath+ "/myblog/articles/" + fName, "r")
@@ -41,3 +44,10 @@ def getIP(request):
 	else:
 		ip = request.META['REMOTE_ADDR']
 	return ip
+
+def isLeap(year):
+	return (year%400 == 0 or (year%100 != 0 and year%4 == 0))
+
+if __name__ == "__main__":
+	print 0+isLeap(2012)
+	print 0+isLeap(2013)

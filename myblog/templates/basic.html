@@ -27,7 +27,7 @@
 	<div class="right-box">
 	</div>
 	<div class="footer">
-		<p style="margin-top: 30px;">{% block owner %}⊙ Gavin 2015{% endblock %}</p>
+		<p style="margin-top: 30px;">{% block owner %}&copy;Gavin 2015{% endblock %}</p>
 		<p style="margin-top: 5px;">Published with Django</p>
 	</div>
 </div>
@@ -78,131 +78,7 @@
 	</div>
 	<div class="cover" hidden>
 	</div>
+
+<input hidden loged={{loged}} id="loged">
 </body>
-<script>
-"use strict"
-var slideShow = false;
-var tagsShow = false;
-
-$(function(){
-		onAction();
-		showBody();
-		});
-
-function showBody() {
-	$("body").animate(
-			{opacity: 1}, 
-			600, 
-			function() {
-			});
-}
-
-function onAction() {
-	$(".play").on("click", slidePlay);
-	$(".cover").on("click", hideSlide);
-	$(".tags-column").on("click", tagsPlay)
-	if (platForm === "pc") {
-		onMouseFocusAction();
-	} else {
-	/*
-	 * todo 手机端的自适应
-		$(".left-box").css({
-				"display": "none",
-				});
-		$(".right-box").css({
-				"display": "none",
-				})
-		$(".paper").css({
-				"width": "100%",
-				"margin-top": "100px",
-				});
-		$(".section").css({
-				"width": "100%",
-				})
-	*/
-	}
-}
-
-function tagsPlay() {
-}
-
-function onMouseFocusAction() {
-	var mouseOnList = {
-		"logo": "logo",
-		"play": "play",
-		"home-column": "home",
-		"tags-column": "tags",
-		"blog-column": "blog",
-		"about-column": "about",
-		"contact-column": "contact",
-	};
-	for (var item in mouseOnList) {
-		var href = mouseOnList[item];
-		$("." + item).on("mouseenter", {"msg":{
-				"item": item,
-				"href": href,
-				}}, mouseEnter);
-		$("." + item).on("mouseleave", {"msg":{
-				"item": item,
-				"href": href,
-				}}, mouseLeave);
-	}
-}
-
-function mouseEnter(event) {
-	var element = $(this);
-	var href = event.data.msg.href;
-	var item = event.data.msg.item;
-	//var element = $("."+ event.data.msg);
-	element.css({
-			"background-color": "#734444",
-			});
-}
-
-function mouseLeave(event) {
-	var element = $(this);
-	var href = event.data.msg.href;
-	var item = event.data.msg.item;
-	//var element = $("." + event.data.msg);
-	element.removeAttr("style");
-}
-
-function slidePlay() {
-	if (slideShow === false) {
-		showSlide();
-	} else {
-		hideSlide();
-	}
-}
-
-function showSlide() {
-	var slide = $(".slide");
-	var cover = $(".cover");
-	var content = $("#content");
-	slide.animate({
-		left: "0px",
-	}, 500, function() {
-	});
-	content.animate({
-		left: "200px",
-	}, 500, function(){
-	});
-	cover.removeAttr("hidden");
-	slideShow = true;
-}
-
-function hideSlide() {
-	var slide = $(".slide");
-	var cover = $(".cover");
-	var content = $("#content");
-	slide.animate({
-		left: "-200px",
-	}, 500);
-	content.animate({
-		left: "0",
-	}, 500)
-	cover.attr("hidden", "");
-	slideShow = false;
-}
-</script>
 </html>

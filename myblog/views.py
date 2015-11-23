@@ -14,20 +14,44 @@ sys.setdefaultencoding('utf-8')
 
 # Create your views here.
 
-mon = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 def login(request):
 	t = get_template("login.html")
 	return HttpResponse(t.render())
 
+def articleModify(request, articleId):
+
+	loged = user.isLogin(request)
+	if loged:
+		t = get_template("add.html")
+	else:
+	 	t = get_template("login.html")
+
+	article = Articles.objects.get(id=articleId)
+	c = Context({
+			"title": article.title,
+			"content": article.content,
+			"author": article.author,
+			"articleId": articleId,
+			"loged": loged,
+			})
+	return HttpResponse(t.render(c))
+
 def addArticle(request):
 	data = request.POST
-	article = Articles(
-		title = data["title"],
-		author = data["author"],
-		content = data["content"],
-		tsp = time.strftime("%Y:%m:%d:%M:%S"),
-		scanTimes = 0,
-	)
+	if data.has_key("articleId") and data["articleId"] != "":
+		article = Articles.objects.get(id=data["articleId"])
+		article.title = data["title"]
+		article.author = data["author"]
+		article.content = data["content"]
+		article.tsp = time.strftime("%Y:%m:%d:%H:%M:%S")
+	else:
+		article = Articles(
+			title = data["title"],
+			author = data["author"],
+			content = data["content"],
+			tsp = time.strftime("%Y:%m:%d:%M:%S"),
+			scanTimes = 0,
+		)
 	article.save()
 	return HttpResponse(json.dumps({'CODE': 'ok'}));
 
@@ -58,6 +82,7 @@ def add(request):
 def getArticlePage(request):
 	page = request.POST["page"]
 	articles = Articles.objects.all()
+	articles = sorted(articles, key=lambda article: -article.weight)
 	p = Paginator(articles, 5)
 	articles = p.page(page).object_list
 	data = {
@@ -68,7 +93,7 @@ def getArticlePage(request):
 	t = get_template("markdown.html")
 	global mon
 	for item in articles:
-		year, month, day, minu, sec = item.tsp.split(":")
+		year, month, day, hour, minu, sec = item.tsp.split(":")
 		tsp = mon[int(month) - 1] + " " + day + "/" + year
 		data["articles"].append({
 				"title": item.title,
@@ -94,11 +119,12 @@ def index(request):
 
 def article(request, articleId):
 	t = get_template("article.html")
+	loged = user.isLogin(request)
 	article = Articles.objects.get(id=articleId)
 	article.scanTimes += 1
 	article.save()
 	global mon
-	year, month, day, minu, sec = article.tsp.split(":")
+	year, month, day, hour, minu, sec = article.tsp.split(":")
 	tsp = mon[int(month) - 1] + " " + day + "/" + year
 	return HttpResponse(t.render(Context({
 					"articleId": article.id,
@@ -106,9 +132,11 @@ def article(request, articleId):
 					"content": article.content,
 					"author": article.author,
 					"scanTimes": article.scanTimes,
+					"weight": article.weight,
 					"tsp": tsp,
 					"desc": article.desc,
 					"tag": article.tag,
+					"loged": loged,
 					})))
 
 def contact(request):

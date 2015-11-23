@@ -14,11 +14,14 @@
 		width: 100%;
 		table-layout:fixed;
 	}
+	td {
+		text-align: center;
+	}
 	.info {
 		margin-top: 30px;
 		width: 100%;
 		border-bottom: solid 1px #9A9A9A;
-		padding-bottom: 5px;
+		padding-bottom: 10px;
 	}
 	.content-warp {
 		margin-top: 100px;
@@ -31,13 +34,20 @@
 		<table>
 		<tr>
 			<td>
-				<label>阅读:({{ scanTimes }})</label>
+				<label style="float: left;">阅读:({{ scanTimes }})</label>
 			</td>
 			<td>
 				<label>Post: {{ tsp }}</label>
 			</td>
 			<td>
-				<label>作者: {{ author }}</label>
+				<label style="float: right;">作者: {{ author }}</label>
+			</td>
+			<td hidden id="modify">
+				<label style="float: right;">
+					<a href="/articleModify/{{ articleId }}" style="font-size: 0.8em; color: #9A9A9A;">
+						编辑
+					</a>
+				</label>
 			</td>
 		</tr>
 		</table>
@@ -45,4 +55,11 @@
 	<div class="content-warp">
 		{{ content | my_markdown | safe }}
 	</div>
+<script>
+	$(function(){
+			if(islogin()) {
+				$("#modify").removeAttr("hidden");
+			}
+	});
+</script>
 {% endblock %}

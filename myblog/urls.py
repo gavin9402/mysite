@@ -13,4 +13,5 @@ urlpatterns = [
 	url(r"^add/$", add),
 	url(r"^addArticle/$", addArticle),
 	url(r"^getArticlePage/$", getArticlePage),
+	url(r"^articleModify/(\d+)/$", articleModify),
 ]

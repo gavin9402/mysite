@@ -8,6 +8,7 @@ class Articles(models.Model):
 	content = models.TextField()
 	scanTimes = models.IntegerField()
 	author = models.CharField(max_length=22)
+	weight = models.FloatField()
 
 class User(models.Model):
 	mobile = models.CharField(max_length = 13)

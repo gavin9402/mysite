@@ -56,36 +56,28 @@
 <form>
 	<div class="input-warp">
 		<label class="label">文章标题: </label>
-		<input class="input" id="title-input" type="text">
+		<input class="input" id="title-input" type="text" value={{ title }}>
 	</div>
 
 	<div class="input-warp">
 		<label class="label">作者: </label>
-		<input class="input" id="author-input" type="text">
+		<input class="input" id="author-input" type="text" value={{ author }}>
 	</div>
 
 	<div class="content-warp">
 		<label class="label">文章内容: </label>
 		</br>
-		<textarea id="content-input" type="text"></textarea>
+		<textarea id="content-input" type="text">{{ content }}</textarea>
 	</div>
 	<div class="submit-btn" onclick="submit()">
 		提交
 	</div>
 </form>
 
-<input hidden loged={{loged}} id="loged">
+<input hidden articleId={{ articleId }} id="articleId">
 <script>
 	$(function(){
-		checkLogin();
 	});
-
-	function checkLogin() {
-		var loged = $("#loged").attr("loged")
-		if (loged == "False") {
-			location.href="/login/"
-		}
-	}
 
 	function submit() {
 		var title = $("#title-input").val();
@@ -110,10 +102,15 @@
 				title: title,
 				author: author,
 				content: content,
+				articleId: $("#articleId").attr("articleid"),
 			},
 			success: function(data) {
 				if (data.CODE == "ok") {
-					location.href="/add/"
+					if ($("#articleId").attr("articleid")) {
+						location.href="/article/"+$("#articleId").attr("articleid")
+					} else {
+						location.href="/add/";
+					}
 				}
 			},
 			error: function(XMLHttpRequest,
